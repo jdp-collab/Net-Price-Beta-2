@@ -295,7 +295,15 @@
                 "Personal/Social": { low: 80, median: 120, high: 200 },
                 "Miscellaneous": { low: 100, median: 110, high: 150 }
             },
-            oneTimeCosts: 2860, // Health Ins, Deposit, Laptop, etc.
+            
+            // Itemized breakdown of one-time setup costs
+            oneTimeCostsBreakdown: {
+                "Residence Permit (IRP)": 300,
+                "Health Insurance (Estimate)": 600,
+                "Accommodation Deposit": 1000,
+                "Laptop / Technology": 800,
+                "Household Setup (Bedding, etc.)": 160
+            },
             
             // Standard 1st Year US Federal Aid Limits (in USD)
             federalLimitsUSD: {
@@ -476,24 +484,33 @@
                     <td>${formatCurrency(totMed * months, rate, currency)}</td>
                     <td>${formatCurrency(totHigh * months, rate, currency)}</td>
                 </tr>
-                <tr>
-                    <td>One-Time Setup Costs<br><span class="info-text" style="margin:0;">(Res. Permit, Deposit, Laptop, Health Ins., etc.)</span></td>
-                    <td>${formatCurrency(CONFIG.oneTimeCosts, rate, currency)}</td>
-                    <td>${formatCurrency(CONFIG.oneTimeCosts, rate, currency)}</td>
-                    <td>${formatCurrency(CONFIG.oneTimeCosts, rate, currency)}</td>
-                </tr>
+                <tr class="section-header"><td colspan="4">Estimated One-Time Setup Costs</td></tr>
+            `;
+
+            let oneTimeTotal = 0;
+            for (const [item, cost] of Object.entries(CONFIG.oneTimeCostsBreakdown)) {
+                oneTimeTotal += cost;
+                monthlyTbody.innerHTML += `<tr>
+                    <td>${item}</td>
+                    <td>${formatCurrency(cost, rate, currency)}</td>
+                    <td>${formatCurrency(cost, rate, currency)}</td>
+                    <td>${formatCurrency(cost, rate, currency)}</td>
+                </tr>`;
+            }
+
+            monthlyTbody.innerHTML += `
                 <tr class="subtotal-row" style="background:#e9f2fa;">
-                    <td>Total Annual Living Costs</td>
-                    <td>${formatCurrency((totLow * months) + CONFIG.oneTimeCosts, rate, currency)}</td>
-                    <td>${formatCurrency((totMed * months) + CONFIG.oneTimeCosts, rate, currency)}</td>
-                    <td>${formatCurrency((totHigh * months) + CONFIG.oneTimeCosts, rate, currency)}</td>
+                    <td>Total Annual Living Costs <br><span style="font-size: 0.85em; font-weight: normal; color: #555;">(Monthly × ${months} + One-Time)</span></td>
+                    <td>${formatCurrency((totLow * months) + oneTimeTotal, rate, currency)}</td>
+                    <td>${formatCurrency((totMed * months) + oneTimeTotal, rate, currency)}</td>
+                    <td>${formatCurrency((totHigh * months) + oneTimeTotal, rate, currency)}</td>
                 </tr>
             `;
 
             // RENDER TABLE 2: Annual Summary
-            const annLow = (totLow * months) + CONFIG.oneTimeCosts;
-            const annMed = (totMed * months) + CONFIG.oneTimeCosts;
-            const annHigh = (totHigh * months) + CONFIG.oneTimeCosts;
+            const annLow = (totLow * months) + oneTimeTotal;
+            const annMed = (totMed * months) + oneTimeTotal;
+            const annHigh = (totHigh * months) + oneTimeTotal;
             
             const coaLow = tuition + annLow;
             const coaMed = tuition + annMed;
