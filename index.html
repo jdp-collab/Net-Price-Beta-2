@@ -11,7 +11,9 @@
             --ucd-light-blue: #e9f2fa;
         }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.6; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        /* Widened container to accommodate columns comfortably */
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         h1, h2, h3 { color: var(--ucd-blue); }
         
         .header-banner { text-align: center; margin-bottom: 25px; }
@@ -19,21 +21,35 @@
         .header-banner h1 { margin: 0; line-height: 1.2; }
         .header-subtitle { color: var(--ucd-gold); display: block; font-size: 0.75em; margin-top: 5px; }
         
-        .intro-text { background: var(--ucd-light-blue); padding: 20px; border-left: 4px solid var(--ucd-blue); margin-bottom: 25px; font-size: 0.95em; }
+        .intro-text { background: var(--ucd-light-blue); padding: 20px; border-left: 4px solid var(--ucd-blue); margin-bottom: 30px; font-size: 0.95em; }
         .btn-primary { background: var(--ucd-blue); color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; font-size: 15px; text-decoration: none; display: inline-block; font-weight: bold; margin-top: 15px; }
         .btn-primary:hover { background: #002244; }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group.full-width { grid-column: span 2; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #444; }
+        /* New 2-Column Layout */
+        .main-layout { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; margin-bottom: 30px; }
+        
+        @media (min-width: 992px) {
+            .main-layout { grid-template-columns: 380px 1fr; }
+        }
+
+        /* Sidebar Styling */
+        .left-panel { background: #f8fbff; padding: 25px; border-radius: 8px; border: 1px solid #d0e1f9; }
+        .left-panel h3 { margin-top: 0; font-size: 1.2em; border-bottom: 2px solid var(--ucd-blue); padding-bottom: 10px; margin-bottom: 20px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .form-group { margin-bottom: 5px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: #444; font-size: 0.95em; }
         input[type="number"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1em; }
-        .info-text { font-size: 0.85em; color: #666; margin-top: 5px; display: block; }
+        .info-text { font-size: 0.85em; color: #666; margin-top: 6px; display: block; line-height: 1.4; }
         .info-text a { color: var(--ucd-blue); text-decoration: none; font-weight: bold; }
         
-        .exchange-rate { background: #eef5e5; color: #2e662d; padding: 10px 15px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; display: none; text-align: center; border: 1px solid #c9dfc9; }
+        .exchange-rate { background: #eef5e5; color: #2e662d; padding: 12px 15px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; display: none; text-align: center; border: 1px solid #c9dfc9; }
+        .fallback-warning { background: #fff3cd; color: #856404; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; display: none; text-align: center; border: 1px solid #ffeeba; }
         
-        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: white; font-size: 0.95em; }
+        .results-panel h2 { margin-top: 0; font-size: 1.3em; }
+        
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; background: white; font-size: 0.95em; }
         .data-table th, .data-table td { padding: 12px; border: 1px solid #ddd; text-align: right; width: 20%; vertical-align: middle; }
         .data-table th:first-child, .data-table td:first-child { text-align: left; width: 40%; }
         .data-table th { background: var(--ucd-blue); color: white; }
@@ -59,8 +75,6 @@
         .print-disclaimer { display: none; }
 
         @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group.full-width { grid-column: span 1; }
             .data-table th, .data-table td { padding: 8px; font-size: 0.85em; }
         }
 
@@ -68,6 +82,7 @@
             body { background: white; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             .no-print { display: none !important; }
+            .main-layout { display: block; } 
             .print-disclaimer.active { display: block !important; margin-top: 30px; font-size: 0.85em; color: #333; border-top: 2px solid #ccc; padding-top: 15px; page-break-inside: avoid; }
             .data-table th { color: black; background: #eee; -webkit-print-color-adjust: exact; }
             .total-row td { background: #ddd; color: black; -webkit-print-color-adjust: exact; }
@@ -76,10 +91,8 @@
             table { page-break-inside: auto; }
             tr { page-break-inside: avoid; page-break-after: auto; }
             
-            /* Show simplified header for printing */
-            .header-banner.no-print { display: block !important; }
+            .header-banner.no-print { display: block !important; margin-bottom: 20px; }
             .intro-text.no-print { display: none !important; }
-            .form-grid.no-print { display: none !important; }
         }
     </style>
 </head>
@@ -113,106 +126,141 @@
             <a href="https://www.ucd.ie/global/enquire/" target="_blank" class="btn-primary">Enquire Here</a>
         </div>
 
-        <form id="calculatorForm" class="no-print form-grid">
-            <div class="form-group">
-                <label>Level of Study</label>
-                <select id="studyLevel">
-                    <option value="ug">Undergraduate (9-month academic year)</option>
-                    <option value="grad">Graduate (12-month academic year)</option>
-                </select>
-            </div>
+        <div id="fallbackWarning" class="fallback-warning">
+            ⚠️ <strong>Warning:</strong> Live exchange rates are currently unavailable. The calculator is using static historical estimates. Please confirm current exchange rates independently.
+        </div>
 
-            <div class="form-group">
-                <label>Citizenship Status</label>
-                <select id="citizenship">
-                    <option value="other">Other Citizen</option>
-                    <option value="us">US Citizen / National / Resident</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Preferred Currency Display</label>
-                <select id="currency">
-                    <option value="EUR">Euro (EUR)</option>
-                    <option value="USD">US Dollar (USD)</option>
-                    <option value="GBP">British Pound (GBP)</option>
-                    <option value="CAD">Canadian Dollar (CAD)</option>
-                    <option value="AUD">Australian Dollar (AUD)</option>
-                    <option value="SGD">Singapore Dollar (SGD)</option>
-                    <option value="JPY">Japanese Yen (JPY)</option>
-                    <option value="BRL">Brazilian Real (BRL)</option>
-                    <option value="MXN">Mexican Peso (MXN)</option>
-                    <option value="CHF">Swiss Franc (CHF)</option>
-                    <option value="SEK">Swedish Krona (SEK)</option>
-                    <option value="ZAR">South African Rand (ZAR)</option>
-                    <option value="INR">Indian Rupee (INR)</option>
-                    <option value="CNY">Chinese Yuan (CNY)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Scholarships Awarded (€)</label>
-                <input type="number" id="scholarships" value="0" min="0" placeholder="Total UCD + External Scholarships">
-            </div>
-
-            <div class="form-group full-width">
-                <label>Annual Tuition Fee (€)</label>
-                <input type="number" id="tuition" value="25000" min="0">
-                <span class="info-text">Find the relevant annual tuition fee for your course on <a href="https://www.ucd.ie/students/fees/noneucoursefees/" target="_blank">UCD's Non-EU Course Fees page</a>, then enter that amount above in euro (€).</span>
-            </div>
-        </form>
-
-        <div id="exchangeRateDisplay" class="exchange-rate"></div>
-
-        <div id="resultsSection">
-            <h2>1. Estimated Living Costs Breakdown</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Expense Item</th>
-                        <th>Low</th>
-                        <th>Median</th>
-                        <th>High</th>
-                    </tr>
-                </thead>
-                <tbody id="monthly-expenses-body">
-                    <!-- Populated by JS -->
-                </tbody>
-            </table>
-
-            <h2>2. Total Cost of Attendance Summary</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Summary Category</th>
-                        <th>Low</th>
-                        <th>Median</th>
-                        <th>High</th>
-                    </tr>
-                </thead>
-                <tbody id="annual-summary-body">
-                    <!-- Populated by JS -->
-                </tbody>
-            </table>
+        <!-- Start of 2-Column Layout -->
+        <div class="main-layout">
             
-            <div id="usAidSection" style="display:none; background: #e9f2fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid var(--ucd-blue);">
-                <h3>US Federal Loan Eligibility Estimates</h3>
-                <table class="data-table" style="margin-bottom: 15px;">
-                    <thead>
-                        <tr>
-                            <th>Loan Type</th>
-                            <th style="text-align: right;">Estimated Maximum Annual Eligibility</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usAidTableBody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-                <div style="font-size: 0.85em; color: #555; background: rgba(255,255,255,0.8); padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                    <strong>Estimate only:</strong> Specific federal loan eligibility depends on FAFSA information, programme and enrollment eligibility, dependency status, other financial assistance, applicable federal requirements, and UCD review. Confirmed eligibility will be communicated in the official Cost of Attendance document generated by UCD after receipt of the student's FAFSA information.
+            <!-- Left Panel: Controls -->
+            <div class="left-panel no-print">
+                <h3>Customize Your Estimate</h3>
+                <form id="calculatorForm" class="form-grid">
+                    
+                    <div class="form-group full-width">
+                        <label>Annual Tuition Fee (€)</label>
+                        <input type="number" id="tuition" value="25000" min="0">
+                        <span class="info-text">Find the relevant annual tuition fee for your course on <a href="https://www.ucd.ie/students/fees/noneucoursefees/" target="_blank">UCD's Non-EU Course Fees page</a>, then enter that amount above in euro (€).</span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Scholarships Awarded (€)</label>
+                        <input type="number" id="scholarships" value="0" min="0" placeholder="Total UCD + External Scholarships">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Level of Study</label>
+                        <select id="studyLevel">
+                            <option value="ug">Undergraduate (9-month academic year)</option>
+                            <option value="grad">Graduate (12-month academic year)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Citizenship Status</label>
+                        <select id="citizenship">
+                            <option value="other">Other Citizen</option>
+                            <option value="us">US Citizen / National / Resident</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width" id="dependencyGroup" style="display: none;">
+                        <label>FAFSA Dependency Status</label>
+                        <select id="dependency">
+                            <option value="dependent">Dependent Student</option>
+                            <option value="independent">Independent Student</option>
+                        </select>
+                        <span class="info-text">Refer to <a href="https://studentaid.gov/apply-for-aid/fafsa/filling-out/dependency" target="_blank">StudentAid.gov</a> for more information on dependency status.</span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Preferred Currency Display</label>
+                        <select id="currency">
+                            <option value="EUR">Euro (EUR)</option>
+                            <option value="USD">US Dollar (USD)</option>
+                            <option value="GBP">British Pound (GBP)</option>
+                            <option value="CAD">Canadian Dollar (CAD)</option>
+                            <option value="AUD">Australian Dollar (AUD)</option>
+                            <option value="SGD">Singapore Dollar (SGD)</option>
+                            <option value="JPY">Japanese Yen (JPY)</option>
+                            <option value="BRL">Brazilian Real (BRL)</option>
+                            <option value="MXN">Mexican Peso (MXN)</option>
+                            <option value="CHF">Swiss Franc (CHF)</option>
+                            <option value="SEK">Swedish Krona (SEK)</option>
+                            <option value="ZAR">South African Rand (ZAR)</option>
+                            <option value="INR">Indian Rupee (INR)</option>
+                            <option value="CNY">Chinese Yuan (CNY)</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            
+            <!-- Right Panel: Results -->
+            <div class="results-panel">
+                <div id="exchangeRateDisplay" class="exchange-rate"></div>
+                
+                <div id="resultsSection">
+                    <h2>1. Estimated Living Costs Breakdown</h2>
+                    <table class="data-table" style="margin-bottom: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Expense Item</th>
+                                <th>Low</th>
+                                <th>Median</th>
+                                <th>High</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-expenses-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                    
+                    <div style="font-size: 0.85em; color: #555; margin-bottom: 30px;">
+                        <p style="margin-top:0;">UCD Global expects that the costs incurred by most students align more closely with the median costs noted above however, students are advised to budget according to their own individual needs and lifestyle.</p>
+                        <p>UCD Global sources this information from sources such as the Consumer Price Index, Daft Quarterly reports, Transport For Ireland (TFI) HEA Eurostudent, <a href="https://switcher.ie" target="_blank">switcher.ie</a>, Sustainable Energy Authority of Ireland (SEAI) and other sources however, costs are subject to inflation and other factors therefore are subject to change. *Particular caution should be exercised in respect of utilities which have been subject to significant changes in recent years.</p>
+                        <p style="margin-bottom:0;"><em>Estimates last updated April 2026</em></p>
+                    </div>
+
+                    <h2>2. Total Cost of Attendance Summary</h2>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Summary Category</th>
+                                <th>Low</th>
+                                <th>Median</th>
+                                <th>High</th>
+                            </tr>
+                        </thead>
+                        <tbody id="annual-summary-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                    
+                    <div id="usAidSection" style="display:none; background: #e9f2fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid var(--ucd-blue);">
+                        <h3 style="margin-top:0;">US Federal Loan Eligibility Estimates</h3>
+                        <table class="data-table" style="margin-bottom: 15px;">
+                            <thead>
+                                <tr>
+                                    <th>Loan Type</th>
+                                    <th style="text-align: right;">Estimated Maximum Annual Eligibility</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usAidTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                        <div style="font-size: 0.85em; color: #555; background: rgba(255,255,255,0.8); padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                            <strong>Estimate only:</strong> Specific federal loan eligibility depends on FAFSA information, programme and enrollment eligibility, dependency status, other financial assistance, applicable federal requirements, and UCD review. Confirmed eligibility will be communicated in the official Cost of Attendance document generated by UCD after receipt of the student's FAFSA information.<br><br>
+                            <strong>UCD Federal School Code: G10188</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
+        <!-- End of 2-Column Layout -->
 
         <!-- US Citizen Print Disclaimer -->
         <div id="printDisclaimerUS" class="print-disclaimer">
@@ -247,25 +295,85 @@
                 "Miscellaneous": { low: 100, median: 110, high: 150 }
             },
             oneTimeCosts: 2860, // Health Ins, Deposit, Laptop, etc.
+            
+            // Standard 1st Year US Federal Aid Limits (in USD)
             federalLimitsUSD: {
-                ugDirect: 12500,
-                ugPlus: 20000,
-                undergrad: 32500, // 12,500 Direct + 20,000 Parent PLUS
-                grad: 20500       // Unsubsidized Limit
+                ugDepSub: 3500,        // Dependent Direct Subsidized
+                ugDepUnsub: 2000,      // Dependent Direct Unsubsidized
+                ugDepPlus: 20000,      // Dependent Parent PLUS Cap
+                ugDepTotal: 25500,     // Total Dependent (5500 + 20000)
+                
+                ugIndepSub: 3500,      // Independent Direct Subsidized
+                ugIndepUnsub: 6000,    // Independent Direct Unsubsidized
+                ugIndepTotal: 9500,    // Total Independent (9500)
+                
+                gradUnsub: 20500       // Graduate Unsubsidized Loans
+            },
+
+            // BACKUP EXCHANGE RATES: Used ONLY if the live API fails
+            fallbackRates: {
+                "EUR": 1,
+                "USD": 1.10,
+                "GBP": 0.85,
+                "CAD": 1.45,
+                "AUD": 1.65,
+                "SGD": 1.45,
+                "JPY": 160.0,
+                "BRL": 5.50,
+                "MXN": 18.50,
+                "CHF": 0.95,
+                "SEK": 11.50,
+                "ZAR": 20.00,
+                "INR": 90.00,
+                "CNY": 7.80
             }
         };
         // ==========================================
 
         let exchangeRates = { "EUR": 1 }; 
+        let usingFallback = false;
 
         async function fetchExchangeRates() {
+            const cacheKey = "ucd_exchange_rates";
+            const cacheTimeKey = "ucd_exchange_rates_time";
+            const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
+            
+            try {
+                const cachedRates = localStorage.getItem(cacheKey);
+                const cacheTimestamp = localStorage.getItem(cacheTimeKey);
+                const now = new Date().getTime();
+
+                if (cachedRates && cacheTimestamp && (now - cacheTimestamp < cacheDuration)) {
+                    exchangeRates = JSON.parse(cachedRates);
+                    renderTables();
+                    return; 
+                }
+            } catch (e) {
+                console.warn("Local storage not accessible.");
+            }
+
             try {
                 const response = await fetch("https://open.er-api.com/v6/latest/EUR");
+                if (!response.ok) throw new Error("API Network response was not ok");
                 const data = await response.json();
+                
                 exchangeRates = data.rates;
                 renderTables();
+
+                try {
+                    localStorage.setItem(cacheKey, JSON.stringify(exchangeRates));
+                    localStorage.setItem(cacheTimeKey, new Date().getTime().toString());
+                } catch (e) {
+                    // Ignore storage errors
+                }
             } catch (error) {
-                console.error("Could not fetch exchange rates. Defaulting to EUR.");
+                console.error("Could not fetch exchange rates. Falling back to static estimates.", error);
+                
+                exchangeRates = CONFIG.fallbackRates;
+                usingFallback = true;
+                
+                document.getElementById('fallbackWarning').style.display = 'block';
+                
                 renderTables();
             }
         }
@@ -282,7 +390,6 @@
             const prefix = isDeduction && amountEUR > 0 ? "-" : "";
             const eurStr = `${prefix}${format(amountEUR, 'EUR')}`;
             
-            // Per previous instructions, dual display format is retained here
             if (currencyCode === 'EUR') return eurStr;
             
             const curStr = `${prefix}${format(amountEUR * rate, currencyCode)}`;
@@ -292,27 +399,48 @@
         function renderTables() {
             const studyLevel = document.getElementById('studyLevel').value;
             const citizenship = document.getElementById('citizenship').value;
+            const dependency = document.getElementById('dependency').value;
+            
             const isUS = citizenship === 'us';
+            const isUG = studyLevel === 'ug';
+            const isDep = dependency === 'dependent';
+            
             const currency = document.getElementById('currency').value;
             const rate = exchangeRates[currency] || 1;
             
             const tuition = parseFloat(document.getElementById('tuition').value) || 0;
             const scholarships = parseFloat(document.getElementById('scholarships').value) || 0;
-            const months = studyLevel === 'ug' ? 9 : 12;
+            const months = isUG ? 9 : 12;
 
-            // Handle Exchange Rate Banner
+            // Toggle Dependency Field Visibility
+            document.getElementById('dependencyGroup').style.display = (isUS && isUG) ? 'block' : 'none';
+
+            // Handle Exchange Rate Banner & Dynamic Note Text
             const exRateDisplay = document.getElementById('exchangeRateDisplay');
             if (currency === 'EUR') {
                 exRateDisplay.style.display = 'none';
             } else {
                 exRateDisplay.style.display = 'block';
-                exRateDisplay.innerText = `Exchange Rate Used: 1 EUR = ${rate.toFixed(4)} ${currency}`;
+                const rateText = usingFallback ? `⚠️ Using Estimated Rate: 1 EUR = ${rate.toFixed(4)} ${currency}` : `Exchange Rate Used: 1 EUR = ${rate.toFixed(4)} ${currency}`;
+                
+                if (usingFallback) {
+                    exRateDisplay.style.background = "#fff3cd";
+                    exRateDisplay.style.color = "#856404";
+                    exRateDisplay.style.border = "1px solid #ffeeba";
+                } else {
+                    exRateDisplay.style.background = "#eef5e5";
+                    exRateDisplay.style.color = "#2e662d";
+                    exRateDisplay.style.border = "1px solid #c9dfc9";
+                }
+                
+                exRateDisplay.innerHTML = `
+                    <div style="font-size: 1.1em;">${rateText}</div>
+                    <div style="font-size: 0.85em; font-weight: normal; margin-top: 8px; line-height: 1.4; color: inherit;">Exchange rates displayed are estimates and will fluctuate daily and throughout potential future studies at UCD. You should note that your tuition fees and expenses will be in Euro and plan for changes in exchange rates.</div>
+                `;
             }
 
-            // Calculate Federal Limit in EUR based on live USD exchange rate
-            const fedLimitUSD = studyLevel === 'ug' ? CONFIG.federalLimitsUSD.undergrad : CONFIG.federalLimitsUSD.grad;
+            // USD conversion rate needed for evaluating US Federal constraints
             const usdRate = exchangeRates['USD'] || 1.1; 
-            const fedLimitEUR = fedLimitUSD / usdRate;
 
             // RENDER TABLE 1: Living Costs Breakdown
             const monthlyTbody = document.getElementById('monthly-expenses-body');
@@ -370,10 +498,25 @@
             const coaMed = tuition + annMed;
             const coaHigh = tuition + annHigh;
 
-            // Federal Aid caps at (Cost of Attendance - Scholarships) in EUR
-            const aidLow = isUS ? Math.min(fedLimitEUR, Math.max(0, coaLow - scholarships)) : 0;
-            const aidMed = isUS ? Math.min(fedLimitEUR, Math.max(0, coaMed - scholarships)) : 0;
-            const aidHigh = isUS ? Math.min(fedLimitEUR, Math.max(0, coaHigh - scholarships)) : 0;
+            // Federal Aid caps calculation helper (in EUR)
+            const getAidAmount = (coaEUR) => {
+                if (!isUS) return 0;
+                const netCoaEUR = Math.max(0, coaEUR - scholarships);
+                
+                if (isUG) {
+                    if (isDep) {
+                        return Math.min(netCoaEUR, CONFIG.federalLimitsUSD.ugDepTotal / usdRate);
+                    } else {
+                        return Math.min(netCoaEUR, CONFIG.federalLimitsUSD.ugIndepTotal / usdRate);
+                    }
+                } else {
+                    return Math.min(netCoaEUR, CONFIG.federalLimitsUSD.gradUnsub / usdRate);
+                }
+            };
+
+            const aidLow = getAidAmount(coaLow);
+            const aidMed = getAidAmount(coaMed);
+            const aidHigh = getAidAmount(coaHigh);
 
             const remLow = coaLow - scholarships - aidLow;
             const remMed = coaMed - scholarships - aidMed;
@@ -423,30 +566,56 @@
             if (isUS) {
                 usAidSection.style.display = 'block';
                 const usAidTbody = document.getElementById('usAidTableBody');
-                if (studyLevel === 'ug') {
-                    usAidTbody.innerHTML = `
-                        <tr>
-                            <td>Direct Subsidized / Unsubsidized Loans</td>
-                            <td>${formatCurrency(CONFIG.federalLimitsUSD.ugDirect / usdRate, rate, currency)}</td>
-                        </tr>
-                        <tr>
-                            <td>Parent PLUS Loan</td>
-                            <td>${formatCurrency(CONFIG.federalLimitsUSD.ugPlus / usdRate, rate, currency)}</td>
-                        </tr>
-                        <tr class="subtotal-row">
-                            <td>Total Estimated Federal Loan Eligibility</td>
-                            <td>${formatCurrency(CONFIG.federalLimitsUSD.undergrad / usdRate, rate, currency)}</td>
-                        </tr>
-                    `;
+                
+                if (isUG) {
+                    if (isDep) {
+                        usAidTbody.innerHTML = `
+                            <tr>
+                                <td><strong>Direct Subsidized Loan</strong><br><span class="info-text">The U.S. Department of Education pays the interest on a Direct Subsidized Loan while you're in school at least half-time.</span></td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugDepSub / usdRate, rate, currency)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Direct Unsubsidized Loan</strong><br><span class="info-text">You are responsible for paying the interest on a Direct Unsubsidized Loan during all periods.</span></td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugDepUnsub / usdRate, rate, currency)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Parent PLUS Loan</strong><br><span class="info-text">New federal rules cap Parent PLUS loans at $20,000 per academic year annually and $65,000 total (aggregate) per dependent student.</span></td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugDepPlus / usdRate, rate, currency)}</td>
+                            </tr>
+                            <tr class="subtotal-row">
+                                <td>Total Estimated Federal Loan Eligibility</td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugDepTotal / usdRate, rate, currency)}</td>
+                            </tr>
+                        `;
+                    } else {
+                        usAidTbody.innerHTML = `
+                            <tr>
+                                <td><strong>Direct Subsidized Loan</strong><br><span class="info-text">The U.S. Department of Education pays the interest on a Direct Subsidized Loan while you're in school at least half-time.</span></td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugIndepSub / usdRate, rate, currency)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Direct Unsubsidized Loan</strong><br><span class="info-text">You are responsible for paying the interest on a Direct Unsubsidized Loan during all periods.</span></td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugIndepUnsub / usdRate, rate, currency)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Parent PLUS Loan</strong></td>
+                                <td style="color:#888;">Not Eligible (Independent Status)</td>
+                            </tr>
+                            <tr class="subtotal-row">
+                                <td>Total Estimated Federal Loan Eligibility</td>
+                                <td>${formatCurrency(CONFIG.federalLimitsUSD.ugIndepTotal / usdRate, rate, currency)}</td>
+                            </tr>
+                        `;
+                    }
                 } else {
                     usAidTbody.innerHTML = `
                         <tr>
-                            <td>Direct Unsubsidized Loan</td>
-                            <td>${formatCurrency(CONFIG.federalLimitsUSD.grad / usdRate, rate, currency)}</td>
+                            <td><strong>Direct Unsubsidized Loan</strong><br><span class="info-text">You are responsible for paying the interest on a Direct Unsubsidized Loan during all periods. Grad PLUS Loans are no longer available under current federal regulations.</span></td>
+                            <td>${formatCurrency(CONFIG.federalLimitsUSD.gradUnsub / usdRate, rate, currency)}</td>
                         </tr>
                         <tr class="subtotal-row">
                             <td>Total Estimated Federal Loan Eligibility</td>
-                            <td>${formatCurrency(CONFIG.federalLimitsUSD.grad / usdRate, rate, currency)}</td>
+                            <td>${formatCurrency(CONFIG.federalLimitsUSD.gradUnsub / usdRate, rate, currency)}</td>
                         </tr>
                     `;
                 }
