@@ -630,8 +630,15 @@
 
         // Add event listeners to update automatically
         document.querySelectorAll('input, select').forEach(element => {
-            element.addEventListener('input', renderTables);
-            element.addEventListener('change', renderTables);
+            const handleUpdate = (e) => {
+                // Auto-switch to USD if US Citizen is selected
+                if (e.target.id === 'citizenship' && e.target.value === 'us') {
+                    document.getElementById('currency').value = 'USD';
+                }
+                renderTables();
+            };
+            element.addEventListener('input', handleUpdate);
+            element.addEventListener('change', handleUpdate);
         });
 
         // Initialize Data
